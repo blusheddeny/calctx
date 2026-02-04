@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steuerersparnis-Analyse | Steuerberatung PSK</title>
+   <style>
+    :root {
+        /* color pallete */
+        --color-primary: #6B3234;       /* Rojo Vino Principal */
+        --color-primary-dark: #5a2729;  /* Vino Oscuro */
+        --color-accent: #8b4447;        /* Rojo Acento */
+        --color-secondary: #faf8f6;     /* Crema/Hueso (Fondo) */
+        --color-text: #2d1f20;          /* Texto Oscuro */
+        --color-text-light: #6b5a5b; 
+        --color-bg-footer:#1f2937;
+        
+        /* Mantenemos verde solo para indicar éxito financiero */
+        --color-success: #27AE60;       
+        
+        --color-white: #ffffff;
+        --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+        --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background-color: var(--color-secondary); /* Fondo Crema */
+        color: var(--color-text);
+        margin: 0;
+        line-height: 1.6;
+    }
+
+    .container {
+        width: min(95%, 1100px);
+        margin: 2rem auto;
+    }
+
+    /* Hero Section */
+    .hero {
+        text-align: center;
+        padding: 3rem 1rem;
+        /* Nuevo degradado elegante con los rojos */
+        background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+        color: white;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .hero h1 {
+        margin: 0;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+    
+    .hero p {
+        opacity: 0.9;
+        font-size: 1.1rem;
+    }
+
+    .logo-image {
+        width: 250px;
+        margin-bottom: 1.5rem;
+        /* Filtro para hacer el logo blanco sobre fondo oscuro */
+        filter: brightness(0) invert(1);
+    }
+
+    /* Input Cards */
+    .card {
+        background: var(--color-white);
+        padding: 2.5rem;
+        border-radius: 12px;
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease;
+    }
+
+    .input-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: var(--color-text);
+    }
+
+    input, select {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #E0E0E0;
+        border-radius: 8px;
+        font-size: 1rem;
+        color: var(--color-text);
+        background: #fff;
+        transition: border-color 0.3s, box-shadow 0.3s;
+        box-sizing: border-box; /* Importante para que el padding no rompa el ancho */
+    }
+
+    input:focus, select:focus {
+        border-color: var(--color-accent);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(139, 68, 71, 0.1); /* Glow sutil rojo */
+    }
+
+    .btn-main {
+        color: white;
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: 1rem 2rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+        
+    }
+    .btn-success{
+        background: var(--color-success);
+    }
+    .btn-secondary{
+        background-color: #4b5563;
+    }
+
+    .btn-normal{
+        background-color: var(--color-primary);
+    }
+
+ .btn-main:hover {
+    background-color: #2d3748; /* Un tono más oscuro o azulado */
+    
+    /* 2. EFECTO DE ELEVACIÓN: Sube el botón */
+    transform: translateY(-4px); 
+    
+    /* 3. SOMBRA PROFUNDA: Aumenta el blur y la opacidad para dar profundidad */
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+/* Opcional: Efecto al hacer click */
+.btn-main:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+.btn-container {
+    display: flex;
+    flex-direction: row; /* Uno al lado del otro */
+    gap: 15px;
+}
+
+/* Configuración para Móvil (menos de 600px) */
+@media (max-width: 600px) {
+    .btn-container {
+        flex-direction: column; /* Se apilan verticalmente */
+    }
+
+    .btn-main {
+        width: 100%; /* Cada botón ocupa el ancho completo */
+        text-align: center;
+    }
+}
+
+    
+    /* Results Display */
+    .results-section {
+        display: none; /* Se muestra con JS */
+        margin-top: 3rem;
+    }
+    
+    .section-title {
+        color: var(--color-primary);
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .result-card {
+        background: var(--color-white);
+        border-radius: 12px;
+        padding: 30px;
+        margin: 20px 0;
+        border-left: 5px solid var(--color-primary);
+        box-shadow: var(--shadow-md);
+    }
+
+    .result-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+
+    .result-item {
+        background: var(--color-secondary); /* Fondo crema suave */
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    .result-label {
+        font-size: 0.85rem;
+        color: var(--color-text-light);
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 600;
+    }
+
+    .result-value {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--color-text);
+    }
+
+    .result-value.success {
+        color: var(--color-success); /* Verde dinero */
+    }
+
+    /* Caja de Ahorro Principal */
+    .savings-box {
+        background: linear-gradient(to right, #fff, var(--color-secondary));
+        border: 2px solid var(--color-success);
+        padding: 2.5rem;
+        text-align: center;
+        border-radius: 16px;
+        margin: 3rem 0;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .savings-box h3 {
+        color: var(--color-text);
+        margin-top: 0;
+    }
+
+    .savings-amount {
+        font-size: 3.5rem;
+        color: var(--color-success);
+        font-weight: 800;
+        display: block;
+        margin: 10px 0;
+        text-shadow: 0 2px 10px rgba(39, 174, 96, 0.2);
+    }
+
+    /* Comparación Vorher/Nachher */
+    .comparison-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin: 30px 0;
+    }
+
+    .comparison-side {
+        background: var(--color-white);
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease;
+    }
+
+    .comparison-side:hover {
+        transform: translateY(-5px);
+    }
+
+    .comparison-side h3 {
+        margin-top: 0;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid var(--color-secondary);
+        color: var(--color-primary);
+        font-size: 1.2rem;
+    }
+
+    /* Tablas */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        background: var(--color-white);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+    }
+
+    th {
+        background: var(--color-primary);
+        color: white;
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+    }
+
+    td {
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+        color: var(--color-text);
+    }
+
+    tr:last-child td {
+        border-bottom: none;
+    }
+
+    tr:hover {
+        background-color: var(--color-secondary);
+    }
+
+    .info-box {
+        background: #fff;
+        border-left: 4px solid var(--color-accent);
+        padding: 15px;
+        border-radius: 4px;
+        margin: 20px 0;
+        font-size: 0.95rem;
+        color: var(--color-text-light);
+    }
+
+    .chart-container {
+        height: 400px;
+        margin: 2rem 0;
+        position: relative;
+    }
+
+    /* Footer */
+    .footer {
+        text-align: center;
+        padding: 4rem 1rem;
+        font-size: 0.85rem;
+        color: var(--color-text-light);
+        background-color: var(--color-bg-footer); /* Footer oscuro */
+        color: rgba(255,255,255,0.8);
+        margin-top: 4rem;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+    
+    .footer strong {
+        color: white;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+        .container {
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        .card {
+            padding: 1.5rem;
+        }
+
+        .input-grid, .comparison-card, .result-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .savings-amount {
+            font-size: 2.5rem;
+        }
+
+        .hero h1 {
+            font-size: 1.8rem;
+        }
+        
+        .footer {
+            border-radius: 0;
+        }
+    }
+</style>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            // Reemplaza con tu PUBLIC KEY de EmailJS
+            emailjs.init("o6ysvNyJtwaNcZF-D");
+            console.log('EmailJS initialized');
+        })();
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <header class="hero">
+            <img src="logo-psk-removebg-preview.png" alt="PSK Steuerberatung Logo" class="logo-image">
+            <h1>Steuerersparnis-Analyse</h1>
+            <p>Berechnen Sie Ihr individuelles Steueroptimierungspotenzial</p>
+        </header>
+
+        <div class="content">
+            <main class="card">
+                <h2 class="section-title">📊 Ihre Steuerdaten</h2>
+                <div class="input-grid">
+                    <div class="form-group">
+                        <label for="income">Zu versteuerndes Einkommen (€):</label>
+                        <input type="number" id="income" min="0" step="1000" value="80000" placeholder="z.B. 80000">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status">Familienstand:</label>
+                        <select id="status">
+                            <option value="single">Einzelveranlagung</option>
+                            <option value="married">Zusammenveranlagung (Ehepaar)</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn-main btn-normal" onclick="calculateTax()">Steuerersparnis berechnen</button>
+            </main>
+
+            <section id="results" class="results-section" style="display: none;">
+
+                <div class="section">
+                    <h2 class="section-title">💰 Ihre aktuelle Steuerbelastung</h2>
+                    <div class="result-card">
+                        <div class="result-grid">
+                            <div class="result-item">
+                                <div class="result-label">Zu versteuerndes Einkommen</div>
+                                <div class="result-value" id="current-income">0 €</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">Einkommensteuer</div>
+                                <div class="result-value" id="current-tax">0 €</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">Durchschnittssteuersatz</div>
+                                <div class="result-value" id="current-avg-rate">0%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="savings-box">
+                    <h3>🎯 Ihr Steueroptimierungspotenzial</h3>
+                    <div class="savings-amount" id="total-savings">0 €</div>
+                    <p style="font-size: 1.1rem;">Potenzielle Steuerersparnis durch strategische Gestaltung</p>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">📈 Vorher / Nachher Vergleich</h2>
+                    <div class="comparison-card">
+                        <div class="comparison-side">
+                            <h3>❌ Ohne Optimierung</h3>
+                            <div class="result-grid">
+                                <div class="result-item">
+                                    <div class="result-label">Steuerlast</div>
+                                    <div class="result-value" id="before-tax-comp">0 €</div>
+                                </div>
+                                <div class="result-item">
+                                    <div class="result-label">Netto</div>
+                                    <div class="result-value" id="before-net">0 €</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comparison-side">
+                            <h3>✅ Mit Optimierung</h3>
+                            <div class="result-grid">
+                                <div class="result-item">
+                                    <div class="result-label">Neue Steuerlast</div>
+                                    <div class="result-value success" id="after-tax">0 €</div>
+                                </div>
+                                <div class="result-item">
+                                    <div class="result-label">Neuer Durchschnittssatz</div>
+                                    <div class="result-value success" id="after-rate">0%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container card">
+                    <h3 style="margin-bottom: 20px; text-align: center;">Steuerbelastung im Vergleich</h3>
+                    <div style="position: relative; height: 350px; width: 100%;">
+                        <canvas id="taxChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 class="section-title">📅 5-Jahres-Steuerersparnis-Prognose</h2>
+                    <div class="info-box">
+                        <p><strong>Prognose:</strong> Durchschnittliche jährliche Steuerersparnis bei konsequenter
+                            Optimierung (IAB-Strategie).</p>
+                    </div>
+
+                    <table id="forecast-table">
+                        <thead>
+                            <tr>
+                                <th>Jahr</th>
+                                <th>Abzug (IAB/AfA)</th>
+                                <th>Steuerersparnis</th>
+                                <th>Kumuliert</th>
+                            </tr>
+                        </thead>
+                        <tbody id="forecast-body">
+                        </tbody>
+                    </table>
+
+                    <div class="chart-container" style="margin-top: 30px;">
+                        <h3 style="margin-bottom: 20px; text-align: center;">Kumulierte Ersparnis über 5 Jahre</h3>
+                        <div style="position: relative; height: 300px; width: 100%;">
+                            <canvas id="projectionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-top: 30px;">
+                    <h3>Ergebnis per E-Mail erhalten & Beratung buchen</h3>
+                    <p>Senden Sie sich die detaillierte Analyse als PDF zu und sichern Sie sich einen Termin.</p>
+                    <div class="input-grid" style="margin-top: 1rem;">
+                        <input type="text" id="lead-name" placeholder="Ihr Name">
+                        <input type="email" id="lead-email" placeholder="Ihre E-Mail">
+                    </div>
+                    <div class="btn-container">
+                        <button class="btn-main btn-success" onclick="generatePDFReport()">📄 PDF Herunterladen</button>
+                         <button class="btn-main btn-secondary" onclick="window.open('https://steuerberatung-psk.com/', '_blank')">🌐 Zur Website</button>
+                        <button class="btn-main btn-normal" 
+                            onclick="window.open('https://calendly.com/simon-steuerberater-psk/erstgesprach', '_blank')">Termin
+                            Buchen</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="footer">
+            <div style="margin-bottom: 20px;">
+                <img src="logo-psk-removebg-preview.png" alt="PSK Logo" class="logo-image">
+                <p style="font-size: 1.1rem; margin-bottom: 5px;"><strong>Paul Simon Kasper</strong></p>
+                <p>Steuerberater | Tax Advisor</p>
+            </div>
+            <p>Ihr Partner für internationale Steuerberatung und Unternehmensgestaltung</p>
+            <p style="margin-top: 10px;">📍 Deutschland & Dubai, UAE</p>
+            <p
+                style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px;">
+                <strong>Rechtlicher Hinweis & Haftungsausschluss:</strong> Diese Berechnung basiert auf § 32a EStG
+                (2026) und stellt eine vereinfachte Orientierungshilfe dar. Sie ersetzt keine individuelle steuerliche
+                Beratung. Alle Angaben ohne Gewähr.
+            </p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // 1. CONFIGURACIÓN SMART IAB
+        const TARGET_SINGLE = 67000;
+        const TARGET_MARRIED = 134000;
+        const MAX_IAB = 200000;
+        const DEPRECIATION_YEARS = 8;
+
+        // Variables globales para gráficas
+        let myChart = null;       // Gráfica de Barras
+        let projectionChart = null; // Gráfica de Línea
+
+        // --- LÓGICA DE NEGOCIO ---
+        function calculateSmartIAB(currentIncome, isMarried) {
+            const target = isMarried ? TARGET_MARRIED : TARGET_SINGLE;
+            if (currentIncome <= target) return 0;
+            let potentialIAB = currentIncome - target;
+            return Math.min(MAX_IAB, potentialIAB);
+        }
+
+        function calculateIncomeTax(income, isMarried = false) {
+            let zvE = Math.floor(income);
+            if (isMarried) zvE = Math.floor(income / 2);
+
+            let tax = 0;
+            // Tablas 2026
+            if (zvE <= 12348) {
+                tax = 0;
+            } else if (zvE <= 17799) {
+                const y = (zvE - 12348) / 10000;
+                tax = (914.51 * y + 1400) * y;
+            } else if (zvE <= 69878) {
+                const z = (zvE - 17799) / 10000;
+                tax = (173.10 * z + 2397) * z + 1034.87;
+            } else if (zvE <= 277825) {
+                tax = 0.42 * zvE - 11135.63;
+            } else {
+                tax = 0.45 * zvE - 19470.38;
+            }
+
+            tax = Math.floor(tax);
+            if (isMarried) tax = tax * 2;
+            return Math.max(0, tax);
+        }
+
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('de-DE', {
+                style: 'currency', currency: 'EUR', maximumFractionDigits: 0
+            }).format(value);
+        }
+
+        function formatPercent(value) {
+            return value.toFixed(1) + '%';
+        }
+
+        // --- FUNCIÓN PRINCIPAL DE CÁLCULO ---
+        function calculateTax() {
+            const incomeInput = document.getElementById('income');
+            const income = parseFloat(incomeInput.value);
+            const status = document.getElementById('status').value;
+            const isMarried = status === 'married';
+
+            if (!income || income < 0) return alert('Bitte geben Sie ein gültiges Einkommen ein.');
+
+            // Situación Actual
+            const currentTax = calculateIncomeTax(income, isMarried);
+            const currentAvgRate = income > 0 ? (currentTax / income) * 100 : 0;
+
+            // Situación Optimizada (Año 1 con IAB)
+            const iabDeduction = calculateSmartIAB(income, isMarried);
+            const newIncomeYear1 = Math.max(0, income - iabDeduction);
+            const newTaxYear1 = calculateIncomeTax(newIncomeYear1, isMarried);
+            const newAvgRate = newIncomeYear1 > 0 ? (newTaxYear1 / newIncomeYear1) * 100 : 0;
+            const savingsYear1 = currentTax - newTaxYear1;
+
+            // Actualizar DOM
+            document.getElementById('current-income').textContent = formatCurrency(income);
+            document.getElementById('current-tax').textContent = formatCurrency(currentTax);
+            document.getElementById('current-avg-rate').textContent = formatPercent(currentAvgRate);
+
+            document.getElementById('total-savings').textContent = formatCurrency(savingsYear1);
+
+            document.getElementById('before-tax-comp').textContent = formatCurrency(currentTax);
+            document.getElementById('before-net').textContent = formatCurrency(income - currentTax);
+
+            document.getElementById('after-tax').textContent = formatCurrency(newTaxYear1);
+            document.getElementById('after-rate').textContent = formatPercent(newAvgRate);
+
+            // Mostrar resultados
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.style.display = 'block';
+
+            // Actualizar Gráficas
+            updateChart(currentTax, newTaxYear1);
+            generateForecast(income, isMarried, currentTax, iabDeduction);
+
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // --- PROYECCIÓN Y TABLA ---
+        function generateForecast(baseIncome, isMarried, baseTax, iabTotal) {
+            const tbody = document.getElementById('forecast-body');
+            tbody.innerHTML = '';
+
+            // Años 2-5: Depreciación (1/8 del IAB)
+            const annualDepreciation = iabTotal > 0 ? (iabTotal / DEPRECIATION_YEARS) : 0;
+
+            let cumulativeSavings = 0;
+            const yearsLabels = [];
+            const cumulativeValues = [];
+
+            for (let year = 1; year <= 5; year++) {
+                let deductionAmount = (year === 1) ? iabTotal : annualDepreciation;
+
+                const adjustedIncome = Math.max(0, baseIncome - deductionAmount);
+                const taxOptimized = calculateIncomeTax(adjustedIncome, isMarried);
+                const savings = baseTax - taxOptimized;
+
+                cumulativeSavings += savings;
+                yearsLabels.push(`Jahr ${year}`);
+                cumulativeValues.push(cumulativeSavings);
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>Jahr ${year}</strong></td>
+                    <td>${formatCurrency(deductionAmount)}</td>
+                    <td style="color: var(--color-success); font-weight: 700;">${formatCurrency(savings)}</td>
+                    <td style="font-weight: 700;">${formatCurrency(cumulativeSavings)}</td>
+                `;
+                tbody.appendChild(row);
+            }
+            updateProjectionChart(yearsLabels, cumulativeValues);
+        }
+
+        // --- GRÁFICAS ---
+        function updateChart(currentTax, newTax) {
+            const ctx = document.getElementById('taxChart').getContext('2d');
+            if (myChart) myChart.destroy();
+
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Ohne Optimierung', 'Mit Optimierung'],
+                    datasets: [{
+                        label: 'Steuerbelastung (€)',
+                        data: [currentTax, newTax],
+                        backgroundColor: ['#6B3234', '#10b981'],
+                        borderRadius: 8
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+        }
+
+        function updateProjectionChart(years, cumulativeData) {
+            const ctx = document.getElementById('projectionChart').getContext('2d');
+            if (projectionChart) projectionChart.destroy();
+
+            projectionChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: [{
+                        label: 'Kumulierte Ersparnis',
+                        data: cumulativeData,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+        }
+
+        // --- Download PDF and generate report ---
+        async function generatePDFReport() {
+            // 1. Validaciones iniciales
+            const { jsPDF } = window.jspdf;
+            if (!jsPDF) {
+                alert("Error: pdf library not found");
+                return;
+            }
+
+            const name = document.getElementById('lead-name').value.trim();
+            const email = document.getElementById('lead-email').value.trim();
+            const income = document.getElementById('income').value;
+            const savings = document.getElementById('total-savings').innerText;
+
+            // Validación de campos
+            if (!name || !email) {
+                alert("Bitte füllen Sie Name und E-Mail aus.");
+                return;
+            }
+
+            //validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
+                return;
+            }
+
+            // Feedback visual al usuario (cambiar texto del botón)
+            const btn = document.querySelector('.btn-success') || document.querySelector('button[onclick="generatePDFReport()"]');
+            const originalText = btn ? btn.innerText : "Senden";
+            if (btn) {
+                btn.innerText = "Wird verarbeitet...";
+                btn.disabled = true;
+            }
+
+            try {
+                // --- PARTE A: GENERACIÓN DEL PDF (Tu código existente) ---
+                const doc = new jsPDF();
+
+                // Encabezado y Datos
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(20);
+                doc.setTextColor(0, 128, 128);
+                doc.text("Steuerersparnis-Analyse", 105, 20, null, null, "center");
+
+                doc.setFontSize(12);
+                doc.setTextColor(0, 0, 0);
+                doc.setFont("helvetica", "normal");
+                doc.text(`Erstellt für: ${name}`, 20, 40);
+                doc.text(`Datum: ${new Date().toLocaleDateString('de-DE')}`, 20, 48);
+
+                // Cuadro de Resultados
+                doc.setDrawColor(39, 174, 96);
+                doc.setFillColor(232, 246, 239);
+                doc.roundedRect(15, 60, 180, 30, 3, 3, 'FD');
+
+                doc.setFontSize(14);
+                doc.text(`Zu versteuerndes Einkommen: ${income} €`, 25, 72);
+                doc.setFontSize(16);
+                doc.setTextColor(39, 174, 96);
+                doc.setFont("helvetica", "bold");
+                doc.text(`Mögliches Sparpotenzial (Jahr 1): ${savings}`, 25, 83);
+
+                // Gráfica 1
+                const taxChartCanvas = document.getElementById('taxChart');
+                if (taxChartCanvas) {
+                    const taxChartImg = taxChartCanvas.toDataURL("image/png", 1.0);
+                    doc.setFontSize(14);
+                    doc.setTextColor(0, 128, 128);
+                    doc.text("Vergleich: Steuerbelastung", 20, 105);
+                    doc.addImage(taxChartImg, 'PNG', 15, 110, 180, 90);
+                }
+
+                // Página 2 y Gráfica 2
+                doc.addPage();
+                doc.setFontSize(16);
+                doc.setTextColor(0, 128, 128);
+                doc.text("5-Jahres-Prognose (Kumuliert)", 105, 20, null, null, "center");
+
+                const projectionChartCanvas = document.getElementById('projectionChart');
+                if (projectionChartCanvas) {
+                    const projChartImg = projectionChartCanvas.toDataURL("image/png", 1.0);
+                    doc.addImage(projChartImg, 'PNG', 15, 40, 180, 100);
+                }
+
+                doc.setFontSize(9);
+                doc.setTextColor(150);
+                doc.text("Haftungsausschluss: Diese Berechnung stellt keine steuerliche Beratung dar.", 105, 280, null, null, "center");
+
+                // Guardar PDF
+                doc.save(`Analyse_${name}_PSK.pdf`);
+
+                // --- PARTE B: ENVÍO DE EMAILJS ---
+                if (typeof emailjs === 'undefined') {
+                    throw new Error('EmailJS nicht geladen');
+                }
+
+                const clickUpEmail = cleanClickUpEmail(
+                    'a.t.901520641671.u-106528320.b157d069-7070-49a4-8b4e-983d040f145a@tasks.clickup.com'
+                );
+
+                const templateParams = {
+            to_email: clickUpEmail, // Enviar DIRECTAMENTE a ClickUp
+            name: name.substring(0, 50), // Limitar longitud
+            email: email,
+            savings: savings.replace('€', 'EUR').trim(),
+            income: income ? `${income} EUR` : '0 EUR',
+            date: new Date().toISOString().split('T')[0] // Formato YYYY-MM-DD
+        };
+
+        console.log('Sending with params:', templateParams);
+
+        // IDs CORRECTOS (verifica que sean exactamente estos)
+        const serviceID = 'service_r0psumo'; 
+        const templateID = 'template_intxb1j'; 
+
+        // Enviar email
+        const response = await emailjs.send(serviceID, templateID, templateParams);
+        
+        console.log('✅ Email sent successfully:', response);
+        
+        alert(`Vielen Dank ${name}! PDF wurde heruntergeladen und Anfrage wurde gesendet.`);
+
+    } catch (error) {
+        console.error('❌ Full error:', error);
+        
+        // Análisis detallado del error
+        if (error.status === 422 || (error.text && error.text.includes('corrupted'))) {
+            console.log('🔄 Trying alternative method...');
+            
+            // Intentar método alternativo
+            const success = await tryDirectEmailSending(name, email, income, savings);
+            
+            if (!success) {
+                alert(`PDF wurde heruntergeladen. Bei der automatischen Übermittlung gab es ein Problem. Bitte senden Sie eine Email an beratung@psk.de`);
+            }
+        } else {
+            alert(`Vielen Dank ${name}. PDF wurde erstellt.`);
+        }
+    } finally {
+        if (btn) {
+            btn.innerText = originalText;
+            btn.disabled = false;
+        }
+    }   
+}
+
+// Función para limpiar la dirección de ClickUp
+function cleanClickUpEmail(email) {
+    return email
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, '') // Eliminar espacios
+        .replace(/[^\w.@-]/g, ''); // Eliminar caracteres especiales problemáticos
+}
+
+// Método alternativo si falla EmailJS
+async function tryDirectEmailSending(name, email, income, savings) {
+    try {
+        // Crear un enlace "mailto:" como alternativa
+        const subject = encodeURIComponent(`Lead: ${name} - Steuerersparnis ${savings}`);
+        const body = encodeURIComponent(
+            `Name: ${name}\nEmail: ${email}\nEinkommen: ${income}\nSparpotenzial: ${savings}\n\nDatum: ${new Date().toLocaleDateString('de-DE')}`
+        );
+        
+        const mailtoLink = `mailto:info@psk.de?subject=${subject}&body=${body}`;
+        
+        // Ofrecer al usuario enviar manualmente
+        const shouldSend = confirm(
+            'Automatischer Versand fehlgeschlagen. Möchten Sie die Anfrage per Email senden?'
+        );
+        
+        if (shouldSend) {
+            window.open(mailtoLink, '_blank');
+            return true;
+        }
+        
+        return false;
+        
+    } catch (altError) {
+        console.error('Alternative method failed:', altError);
+        return false;
+    }
+}
+    </script>
+</body>
+
+</html>
