@@ -5,376 +5,422 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Steuerersparnis-Analyse | Steuerberatung PSK</title>
-   <style>
-    :root {
-        /* color pallete */
-        --color-primary: #6B3234;       /* Rojo Vino Principal */
-        --color-primary-dark: #5a2729;  /* Vino Oscuro */
-        --color-accent: #8b4447;        /* Rojo Acento */
-        --color-secondary: #faf8f6;     /* Crema/Hueso (Fondo) */
-        --color-text: #2d1f20;          /* Texto Oscuro */
-        --color-text-light: #6b5a5b; 
-        --color-bg-footer:#1f2937;
-        
-        /* Mantenemos verde solo para indicar éxito financiero */
-        --color-success: #27AE60;       
-        
-        --color-white: #ffffff;
-        --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
-        --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-        --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    }
+    <style>
+        :root {
+            /* color pallete */
+            --color-primary: #6B3234;
+            --color-primary-dark: #5a2729;
+            --color-accent: #8b4447;
+            --color-secondary: #faf8f6;
+            --color-text: #2d1f20;
+            --color-text-light: #6b5a5b;
+            --color-bg-footer: #1f2937;
 
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        background-color: var(--color-secondary); /* Fondo Crema */
-        color: var(--color-text);
-        margin: 0;
-        line-height: 1.6;
-    }
 
-    .container {
-        width: min(95%, 1100px);
-        margin: 2rem auto;
-    }
+            --color-success: #27AE60;
 
-    /* Hero Section */
-    .hero {
-        text-align: center;
-        padding: 3rem 1rem;
-        /* Nuevo degradado elegante con los rojos */
-        background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
-        color: white;
-        border-radius: 15px;
-        margin-bottom: 2rem;
-        box-shadow: var(--shadow-lg);
-    }
+            --color-white: #ffffff;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
 
-    .hero h1 {
-        margin: 0;
-        font-weight: 700;
-        letter-spacing: -0.5px;
-    }
-    
-    .hero p {
-        opacity: 0.9;
-        font-size: 1.1rem;
-    }
+        .savings-box h3,
+        .result-card h3,
+        .section-title {
+            inline-size: 100%;
+            /* Asegura que use todo el ancho disponible */
+            overflow-wrap: break-word;
+            /* Corta la palabra si es necesario */
+            word-break: break-word;
+            /* Compatibilidad extra */
+            hyphens: auto;
+            /* Añade guiones automáticamente si el idioma es alemán */
+            line-height: 1.2;
+        }
 
-    .logo-image {
-        width: 250px;
-        margin-bottom: 1.5rem;
-        /* Filtro para hacer el logo blanco sobre fondo oscuro */
-        filter: brightness(0) invert(1);
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--color-secondary);
+            color: var(--color-text);
+            margin: 0;
+            line-height: 1.6;
+        }
 
-    /* Input Cards */
-    .card {
-        background: var(--color-white);
-        padding: 2.5rem;
-        border-radius: 12px;
-        box-shadow: var(--shadow-md);
-        border: 1px solid rgba(0, 0, 0, 0.05);
-        transition: transform 0.3s ease;
-    }
-
-    .input-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-        margin-bottom: 2rem;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 600;
-        color: var(--color-text);
-    }
-
-    input, select {
-        width: 100%;
-        padding: 12px;
-        border: 2px solid #E0E0E0;
-        border-radius: 8px;
-        font-size: 1rem;
-        color: var(--color-text);
-        background: #fff;
-        transition: border-color 0.3s, box-shadow 0.3s;
-        box-sizing: border-box; /* Importante para que el padding no rompa el ancho */
-    }
-
-    input:focus, select:focus {
-        border-color: var(--color-accent);
-        outline: none;
-        box-shadow: 0 0 0 3px rgba(139, 68, 71, 0.1); /* Glow sutil rojo */
-    }
-
-    .btn-main {
-        color: white;
-        font-weight: bold;
-        text-transform: uppercase;
-        padding: 1rem 2rem;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        width: 100%;
-        transition: all 0.3s ease;
-        font-size: 1rem;
-        letter-spacing: 0.5px;
-        
-    }
-    .btn-success{
-        background: var(--color-success);
-    }
-    .btn-secondary{
-        background-color: #4b5563;
-    }
-
-    .btn-normal{
-        background-color: var(--color-primary);
-    }
-
- .btn-main:hover {
-    background-color: #2d3748; /* Un tono más oscuro o azulado */
-    
-    /* 2. EFECTO DE ELEVACIÓN: Sube el botón */
-    transform: translateY(-4px); 
-    
-    /* 3. SOMBRA PROFUNDA: Aumenta el blur y la opacidad para dar profundidad */
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-}
-
-/* Opcional: Efecto al hacer click */
-.btn-main:active {
-    transform: translateY(-1px);
-    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-}
-
-.btn-container {
-    display: flex;
-    flex-direction: row; /* Uno al lado del otro */
-    gap: 15px;
-}
-
-/* Configuración para Móvil (menos de 600px) */
-@media (max-width: 600px) {
-    .btn-container {
-        flex-direction: column; /* Se apilan verticalmente */
-    }
-
-    .btn-main {
-        width: 100%; /* Cada botón ocupa el ancho completo */
-        text-align: center;
-    }
-}
-
-    
-    /* Results Display */
-    .results-section {
-        display: none; /* Se muestra con JS */
-        margin-top: 3rem;
-    }
-    
-    .section-title {
-        color: var(--color-primary);
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .result-card {
-        background: var(--color-white);
-        border-radius: 12px;
-        padding: 30px;
-        margin: 20px 0;
-        border-left: 5px solid var(--color-primary);
-        box-shadow: var(--shadow-md);
-    }
-
-    .result-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-    }
-
-    .result-item {
-        background: var(--color-secondary); /* Fondo crema suave */
-        padding: 20px;
-        border-radius: 8px;
-        border: 1px solid rgba(0,0,0,0.03);
-    }
-
-    .result-label {
-        font-size: 0.85rem;
-        color: var(--color-text-light);
-        margin-bottom: 5px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        font-weight: 600;
-    }
-
-    .result-value {
-        font-size: 1.6rem;
-        font-weight: 800;
-        color: var(--color-text);
-    }
-
-    .result-value.success {
-        color: var(--color-success); /* Verde dinero */
-    }
-
-    /* Caja de Ahorro Principal */
-    .savings-box {
-        background: linear-gradient(to right, #fff, var(--color-secondary));
-        border: 2px solid var(--color-success);
-        padding: 2.5rem;
-        text-align: center;
-        border-radius: 16px;
-        margin: 3rem 0;
-        box-shadow: var(--shadow-lg);
-    }
-
-    .savings-box h3 {
-        color: var(--color-text);
-        margin-top: 0;
-    }
-
-    .savings-amount {
-        font-size: 3.5rem;
-        color: var(--color-success);
-        font-weight: 800;
-        display: block;
-        margin: 10px 0;
-        text-shadow: 0 2px 10px rgba(39, 174, 96, 0.2);
-    }
-
-    /* Comparación Vorher/Nachher */
-    .comparison-card {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 30px;
-        margin: 30px 0;
-    }
-
-    .comparison-side {
-        background: var(--color-white);
-        padding: 30px;
-        border-radius: 16px;
-        box-shadow: var(--shadow-md);
-        border: 1px solid rgba(0, 0, 0, 0.05);
-        transition: transform 0.3s ease;
-    }
-
-    .comparison-side:hover {
-        transform: translateY(-5px);
-    }
-
-    .comparison-side h3 {
-        margin-top: 0;
-        margin-bottom: 20px;
-        padding-bottom: 15px;
-        border-bottom: 2px solid var(--color-secondary);
-        color: var(--color-primary);
-        font-size: 1.2rem;
-    }
-
-    /* Tablas */
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 20px 0;
-        background: var(--color-white);
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: var(--shadow-sm);
-    }
-
-    th {
-        background: var(--color-primary);
-        color: white;
-        padding: 15px;
-        text-align: left;
-        font-weight: 600;
-    }
-
-    td {
-        padding: 15px;
-        border-bottom: 1px solid #eee;
-        color: var(--color-text);
-    }
-
-    tr:last-child td {
-        border-bottom: none;
-    }
-
-    tr:hover {
-        background-color: var(--color-secondary);
-    }
-
-    .info-box {
-        background: #fff;
-        border-left: 4px solid var(--color-accent);
-        padding: 15px;
-        border-radius: 4px;
-        margin: 20px 0;
-        font-size: 0.95rem;
-        color: var(--color-text-light);
-    }
-
-    .chart-container {
-        height: 400px;
-        margin: 2rem 0;
-        position: relative;
-    }
-
-    /* Footer */
-    .footer {
-        text-align: center;
-        padding: 4rem 1rem;
-        font-size: 0.85rem;
-        color: var(--color-text-light);
-        background-color: var(--color-bg-footer); /* Footer oscuro */
-        color: rgba(255,255,255,0.8);
-        margin-top: 4rem;
-        border-top-left-radius: 20px;
-        border-top-right-radius: 20px;
-    }
-    
-    .footer strong {
-        color: white;
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
         .container {
-            width: 100%;
-            padding: 0 10px;
+            width: min(95%, 1100px);
+            margin: 2rem auto;
         }
 
-        .card {
-            padding: 1.5rem;
-        }
-
-        .input-grid, .comparison-card, .result-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .savings-amount {
-            font-size: 2.5rem;
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
         }
 
         .hero h1 {
-            font-size: 1.8rem;
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
-        
+
+        .hero p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .logo-image {
+            width: 250px;
+            margin-bottom: 1.5rem;
+            /* Filtro para hacer el logo blanco sobre fondo oscuro */
+            filter: brightness(0) invert(1);
+        }
+
+        /* Input Cards */
+        .card {
+            background: var(--color-white);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: var(--color-text);
+            background: #fff;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            box-sizing: border-box;
+            /* Importante para que el padding no rompa el ancho */
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--color-accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(139, 68, 71, 0.1);
+            /* Glow sutil rojo */
+        }
+
+        .btn-main {
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+
+        }
+
+        .btn-success {
+            background: var(--color-success);
+        }
+
+        .btn-secondary {
+            background-color: #4b5563;
+        }
+
+        .btn-normal {
+            background-color: var(--color-primary);
+        }
+
+        .btn-main:hover {
+            background-color: #2d3748;
+            /* Un tono más oscuro o azulado */
+
+            /* 2. EFECTO DE ELEVACIÓN: Sube el botón */
+            transform: translateY(-4px);
+
+            /* 3. SOMBRA PROFUNDA: Aumenta el blur y la opacidad para dar profundidad */
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        }
+
+        /* Opcional: Efecto al hacer click */
+        .btn-main:active {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-container {
+            display: flex;
+            flex-direction: row;
+            /* Uno al lado del otro */
+            gap: 15px;
+        }
+
+        /* Configuración para Móvil (menos de 600px) */
+        @media (max-width: 600px) {
+            .btn-container {
+                flex-direction: column;
+                /* Se apilan verticalmente */
+            }
+
+            .btn-main {
+                width: 100%;
+                /* Cada botón ocupa el ancho completo */
+                text-align: center;
+            }
+        }
+
+
+        /* Results Display */
+        .results-section {
+            display: none;
+            /* Se muestra con JS */
+            margin-top: 3rem;
+        }
+
+        .section-title {
+            color: var(--color-primary);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .result-card {
+            background: var(--color-white);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 20px 0;
+            border-left: 5px solid var(--color-primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .result-item {
+            background: var(--color-secondary);
+            /* Fondo crema suave */
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .result-label {
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .result-value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--color-text);
+        }
+
+        .result-value.success {
+            color: var(--color-success);
+            /* Verde dinero */
+        }
+
+        /* Caja de Ahorro Principal */
+        .savings-box {
+            background: linear-gradient(to right, #fff, var(--color-secondary));
+            border: 2px solid var(--color-success);
+            padding: 2.5rem;
+            text-align: center;
+            border-radius: 16px;
+            margin: 3rem 0;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .savings-box h3 {
+            color: var(--color-text);
+            margin-top: 0;
+        }
+
+        .savings-amount {
+            font-size: 3.5rem;
+            color: var(--color-success);
+            font-weight: 800;
+            display: block;
+            margin: 10px 0;
+            text-shadow: 0 2px 10px rgba(39, 174, 96, 0.2);
+        }
+
+        /* Comparación Vorher/Nachher */
+        .comparison-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .comparison-side {
+            background: var(--color-white);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .comparison-side:hover {
+            transform: translateY(-5px);
+        }
+
+        .comparison-side h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--color-secondary);
+            color: var(--color-primary);
+            font-size: 1.2rem;
+        }
+
+        /* Tablas */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            /* El scroll mágico */
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            margin: 1.5rem 0;
+            /* Evita que el contenedor se salga del padre */
+            display: block;
+        }
+
+
+
+        table {
+            width: 100%;
+            min-width: 500px;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--color-white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        th {
+            background: var(--color-primary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            color: var(--color-text);
+            white-space: nowrap;
+            /* Evita que "1.000,00 €" se rompa en dos filas */
+            padding: 12px 15px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: var(--color-secondary);
+        }
+
+        .info-box {
+            background: #fff;
+            border-left: 4px solid var(--color-accent);
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            color: var(--color-text-light);
+        }
+
+        .chart-container {
+            height: 400px;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        /* Footer */
         .footer {
-            border-radius: 0;
+            text-align: center;
+            padding: 4rem 1rem;
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+            background-color: var(--color-bg-footer);
+            /* Footer oscuro */
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 4rem;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
         }
-    }
-</style>
+
+        .footer strong {
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                width: 100%;
+                padding: 0 10px;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .input-grid,
+            .comparison-card,
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .savings-amount {
+                font-size: 2.5rem;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .footer {
+                border-radius: 0;
+            }
+        }
+    </style>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
         (function () {
@@ -475,7 +521,7 @@
 
                 <div class="chart-container card">
                     <h3 style="margin-bottom: 20px; text-align: center;">Steuerbelastung im Vergleich</h3>
-                    <div style="position: relative; height: 350px; width: 100%;">
+                    <div style="position: relative; height: 50%; width: 100%;">
                         <canvas id="taxChart"></canvas>
                     </div>
                 </div>
@@ -486,19 +532,21 @@
                         <p><strong>Prognose:</strong> Durchschnittliche jährliche Steuerersparnis bei konsequenter
                             Optimierung (IAB-Strategie).</p>
                     </div>
+                    <div class="table-container">
+                        <table id="forecast-table">
+                            <thead>
+                                <tr>
+                                    <th>Jahr</th>
+                                    <th>Abzug (IAB/AfA)</th>
+                                    <th>Steuerersparnis</th>
+                                    <th>Kumuliert</th>
+                                </tr>
+                            </thead>
+                            <tbody id="forecast-body">
+                            </tbody>
+                        </table>
 
-                    <table id="forecast-table">
-                        <thead>
-                            <tr>
-                                <th>Jahr</th>
-                                <th>Abzug (IAB/AfA)</th>
-                                <th>Steuerersparnis</th>
-                                <th>Kumuliert</th>
-                            </tr>
-                        </thead>
-                        <tbody id="forecast-body">
-                        </tbody>
-                    </table>
+                    </div>
 
                     <div class="chart-container" style="margin-top: 30px;">
                         <h3 style="margin-bottom: 20px; text-align: center;">Kumulierte Ersparnis über 5 Jahre</h3>
@@ -516,8 +564,9 @@
                     </div>
                     <div class="btn-container">
                         <button class="btn-main btn-success" onclick="generatePDFReport()">📄 PDF Herunterladen</button>
-                         <button class="btn-main btn-secondary" onclick="window.open('https://steuerberatung-psk.com/', '_blank')">🌐 Zur Website</button>
-                        <button class="btn-main btn-normal" 
+                        <button class="btn-main btn-secondary"
+                            onclick="window.open('https://steuerberatung-psk.com/', '_blank')">🌐 Zur Website</button>
+                        <button class="btn-main btn-normal"
                             onclick="window.open('https://calendly.com/simon-steuerberater-psk/erstgesprach', '_blank')">Termin
                             Buchen</button>
                     </div>
@@ -821,88 +870,88 @@
                 );
 
                 const templateParams = {
-            to_email: clickUpEmail, // Enviar DIRECTAMENTE a ClickUp
-            name: name.substring(0, 50), // Limitar longitud
-            email: email,
-            savings: savings.replace('€', 'EUR').trim(),
-            income: income ? `${income} EUR` : '0 EUR',
-            date: new Date().toISOString().split('T')[0] // Formato YYYY-MM-DD
-        };
+                    to_email: clickUpEmail, // Enviar DIRECTAMENTE a ClickUp
+                    name: name.substring(0, 50), // Limitar longitud
+                    email: email,
+                    savings: savings.replace('€', 'EUR').trim(),
+                    income: income ? `${income} EUR` : '0 EUR',
+                    date: new Date().toISOString().split('T')[0] // Formato YYYY-MM-DD
+                };
 
-        console.log('Sending with params:', templateParams);
+                console.log('Sending with params:', templateParams);
 
-        // IDs CORRECTOS (verifica que sean exactamente estos)
-        const serviceID = 'service_r0psumo'; 
-        const templateID = 'template_intxb1j'; 
+                // IDs CORRECTOS (verifica que sean exactamente estos)
+                const serviceID = 'service_r0psumo';
+                const templateID = 'template_intxb1j';
 
-        // Enviar email
-        const response = await emailjs.send(serviceID, templateID, templateParams);
-        
-        console.log('✅ Email sent successfully:', response);
-        
-        alert(`Vielen Dank ${name}! PDF wurde heruntergeladen und Anfrage wurde gesendet.`);
+                // Enviar email
+                const response = await emailjs.send(serviceID, templateID, templateParams);
 
-    } catch (error) {
-        console.error('❌ Full error:', error);
-        
-        // Análisis detallado del error
-        if (error.status === 422 || (error.text && error.text.includes('corrupted'))) {
-            console.log('🔄 Trying alternative method...');
-            
-            // Intentar método alternativo
-            const success = await tryDirectEmailSending(name, email, income, savings);
-            
-            if (!success) {
-                alert(`PDF wurde heruntergeladen. Bei der automatischen Übermittlung gab es ein Problem. Bitte senden Sie eine Email an beratung@psk.de`);
+                console.log('✅ Email sent successfully:', response);
+
+                alert(`Vielen Dank ${name}! PDF wurde heruntergeladen und Anfrage wurde gesendet.`);
+
+            } catch (error) {
+                console.error('❌ Full error:', error);
+
+                // Análisis detallado del error
+                if (error.status === 422 || (error.text && error.text.includes('corrupted'))) {
+                    console.log('🔄 Trying alternative method...');
+
+                    // Intentar método alternativo
+                    const success = await tryDirectEmailSending(name, email, income, savings);
+
+                    if (!success) {
+                        alert(`PDF wurde heruntergeladen. Bei der automatischen Übermittlung gab es ein Problem. Bitte senden Sie eine Email an beratung@psk.de`);
+                    }
+                } else {
+                    alert(`Vielen Dank ${name}. PDF wurde erstellt.`);
+                }
+            } finally {
+                if (btn) {
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                }
             }
-        } else {
-            alert(`Vielen Dank ${name}. PDF wurde erstellt.`);
         }
-    } finally {
-        if (btn) {
-            btn.innerText = originalText;
-            btn.disabled = false;
-        }
-    }   
-}
 
-// Función para limpiar la dirección de ClickUp
-function cleanClickUpEmail(email) {
-    return email
-        .trim()
-        .toLowerCase()
-        .replace(/\s+/g, '') // Eliminar espacios
-        .replace(/[^\w.@-]/g, ''); // Eliminar caracteres especiales problemáticos
-}
-
-// Método alternativo si falla EmailJS
-async function tryDirectEmailSending(name, email, income, savings) {
-    try {
-        // Crear un enlace "mailto:" como alternativa
-        const subject = encodeURIComponent(`Lead: ${name} - Steuerersparnis ${savings}`);
-        const body = encodeURIComponent(
-            `Name: ${name}\nEmail: ${email}\nEinkommen: ${income}\nSparpotenzial: ${savings}\n\nDatum: ${new Date().toLocaleDateString('de-DE')}`
-        );
-        
-        const mailtoLink = `mailto:info@psk.de?subject=${subject}&body=${body}`;
-        
-        // Ofrecer al usuario enviar manualmente
-        const shouldSend = confirm(
-            'Automatischer Versand fehlgeschlagen. Möchten Sie die Anfrage per Email senden?'
-        );
-        
-        if (shouldSend) {
-            window.open(mailtoLink, '_blank');
-            return true;
+        // Función para limpiar la dirección de ClickUp
+        function cleanClickUpEmail(email) {
+            return email
+                .trim()
+                .toLowerCase()
+                .replace(/\s+/g, '') // Eliminar espacios
+                .replace(/[^\w.@-]/g, ''); // Eliminar caracteres especiales problemáticos
         }
-        
-        return false;
-        
-    } catch (altError) {
-        console.error('Alternative method failed:', altError);
-        return false;
-    }
-}
+
+        // Método alternativo si falla EmailJS
+        async function tryDirectEmailSending(name, email, income, savings) {
+            try {
+                // Crear un enlace "mailto:" como alternativa
+                const subject = encodeURIComponent(`Lead: ${name} - Steuerersparnis ${savings}`);
+                const body = encodeURIComponent(
+                    `Name: ${name}\nEmail: ${email}\nEinkommen: ${income}\nSparpotenzial: ${savings}\n\nDatum: ${new Date().toLocaleDateString('de-DE')}`
+                );
+
+                const mailtoLink = `mailto:info@psk.de?subject=${subject}&body=${body}`;
+
+                // Ofrecer al usuario enviar manualmente
+                const shouldSend = confirm(
+                    'Automatischer Versand fehlgeschlagen. Möchten Sie die Anfrage per Email senden?'
+                );
+
+                if (shouldSend) {
+                    window.open(mailtoLink, '_blank');
+                    return true;
+                }
+
+                return false;
+
+            } catch (altError) {
+                console.error('Alternative method failed:', altError);
+                return false;
+            }
+        }
     </script>
 </body>
 
